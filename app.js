@@ -347,6 +347,7 @@ class AppController {
 
     if (newStatus) {
       soundFx.playSuccess();
+      if (navigator.vibrate) navigator.vibrate([15, 30, 25]);
       triggerConfettiBurst(window.innerWidth / 2, window.innerHeight / 2);
       
       const xpGained = habit.xpValue || 15;
@@ -356,6 +357,7 @@ class AppController {
       this.checkBadgesUnlock();
     } else {
       soundFx.playClick();
+      if (navigator.vibrate) navigator.vibrate(10);
       this.data.user.xp = Math.max(0, this.data.user.xp - (habit.xpValue || 15));
     }
 
@@ -381,6 +383,7 @@ class AppController {
     };
 
     soundFx.playClick();
+    if (navigator.vibrate) navigator.vibrate(isDone ? [15, 30, 25] : 12);
     if (isDone && !currentVal) {
       soundFx.playSuccess();
       triggerConfettiBurst();
