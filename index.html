@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="obsidian">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraHabit — Daily Habit Tracker & Consistency Platform</title>
+  <meta name="description" content="A genuine, multi-page daily habit tracker with real-time multi-device sync, focus timers, analytics heatmaps, and gamified badges.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Top Header Bar -->
+    <header class="header-bar">
+      <div class="logo-group">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <h1 class="logo-title">AuraHabit</h1>
+        </div>
+      </div>
+
+      <div class="user-badge-row">
+        <!-- Live Sync Status Badge -->
+        <div id="liveSyncBadge" class="live-sync-indicator" title="Real-Time Sync Active across paired devices">
+          <span class="sync-dot"></span> LIVE SYNC: <span id="syncRoomCodeDisplay">AURA-1001</span>
+        </div>
+
+        <!-- XP & Level Progress Pill -->
+        <div class="xp-level-pill">
+          <span class="level-tag" id="userLevelTag">LVL 1</span>
+          <div class="xp-bar-container">
+            <div class="xp-bar-fill" id="userXPBarFill"></div>
+          </div>
+          <span id="userXPText" style="color: var(--text-muted); font-size: 0.8rem;">0 / 100 XP</span>
+        </div>
+
+        <button class="icon-btn" id="soundToggleBtn" title="Toggle Sound FX">🔊</button>
+        <button class="icon-btn" id="shareCardBtn" title="Generate Streak Card">🎨</button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs Bar -->
+    <nav class="nav-tabs-bar" aria-label="Main Navigation">
+      <button class="nav-tab-btn active" data-view="dashboard">🏠 Dashboard</button>
+      <button class="nav-tab-btn" data-view="analytics">📈 Analytics</button>
+      <button class="nav-tab-btn" data-view="habits">📋 Manage Habits</button>
+      <button class="nav-tab-btn" data-view="timer">⏱️ Focus Chamber</button>
+      <button class="nav-tab-btn" data-view="journal">📖 Journal</button>
+      <button class="nav-tab-btn" data-view="profile">👤 Profile & Sync</button>
+    </nav>
+
+    <!-- PAGE VIEW 1: DASHBOARD -->
+    <div class="page-view active" id="view-dashboard">
+      <section class="hero-banner">
+        <div class="hero-main-card">
+          <div>
+            <h2 class="greeting-text" id="heroGreeting">Good Day, Achiever!</h2>
+            <p class="greeting-sub" id="heroDateSubtext">Loading daily habit summary...</p>
+          </div>
+          <div class="quote-box" id="heroQuote">
+            "Consistency is what transforms average into excellence."
+          </div>
+        </div>
+
+        <div class="hero-stats-card">
+          <div class="progress-ring-box">
+            <svg class="progress-ring-svg" viewBox="0 0 120 120">
+              <defs>
+                <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#06b6d4" />
+                  <stop offset="100%" stop-color="#6366f1" />
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="60" cy="60" r="54" />
+              <circle class="ring-progress" id="heroRingProgress" cx="60" cy="60" r="54" />
+            </svg>
+            <div class="ring-center-text">
+              <span class="ring-percentage" id="heroRingPercentage">0%</span>
+              <span class="ring-label">DONE</span>
+            </div>
+          </div>
+          <div style="font-weight: 600; font-size: 0.9rem;">Daily Goal Ring</div>
+        </div>
+      </section>
+
+      <div class="week-strip-card" id="weekStripContainer"></div>
+
+      <div class="controls-bar">
+        <div class="filter-tabs">
+          <button class="filter-btn active" data-filter="all">All Habits</button>
+          <button class="filter-btn" data-filter="Morning">☀️ Morning</button>
+          <button class="filter-btn" data-filter="Afternoon">🌤️ Afternoon</button>
+          <button class="filter-btn" data-filter="Evening">🌙 Evening</button>
+        </div>
+
+        <div class="action-btn-group">
+          <button class="btn-secondary" id="presetTemplatesBtn">✨ Presets</button>
+          <button class="btn-primary" id="addHabitBtn">➕ Add Custom Habit</button>
+        </div>
+      </div>
+
+      <main class="habits-grid" id="habitsGrid"></main>
+
+      <section class="grid-two-col">
+        <div class="mood-card">
+          <h3 class="section-title" style="margin-bottom: 16px;">
+            <span>📝</span> Daily Reflection & Mood
+          </h3>
+          <div class="mood-selector">
+            <button class="mood-btn" data-mood="energized">⚡ <span>Energized</span></button>
+            <button class="mood-btn" data-mood="happy">😊 <span>Happy</span></button>
+            <button class="mood-btn" data-mood="calm">🧘 <span>Calm</span></button>
+            <button class="mood-btn" data-mood="neutral">😐 <span>Neutral</span></button>
+            <button class="mood-btn" data-mood="low">🌧️ <span>Low</span></button>
+          </div>
+          <textarea class="journal-textarea" id="journalNoteArea" placeholder="Log today's thoughts, achievements, or reflections..."></textarea>
+        </div>
+
+        <div class="insights-card">
+          <h3 class="section-title" style="margin-bottom: 16px;">
+            <span>🧠</span> Smart Habit Insights
+          </h3>
+          <div id="insightsList"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- PAGE VIEW 2: ANALYTICS -->
+    <div class="page-view" id="view-analytics">
+      <div id="analyticsPageContent"></div>
+    </div>
+
+    <!-- PAGE VIEW 3: HABITS MANAGEMENT -->
+    <div class="page-view" id="view-habits">
+      <div class="analytics-section">
+        <div class="section-title-group">
+          <h3 class="section-title"><span>📋</span> Habit Directory & Routines</h3>
+          <button class="btn-primary" onclick="document.getElementById('addHabitBtn').click()">➕ New Habit</button>
+        </div>
+        <div id="allHabitsList"></div>
+      </div>
+    </div>
+
+    <!-- PAGE VIEW 4: FOCUS CHAMBER -->
+    <div class="page-view" id="view-timer">
+      <div class="focus-chamber-card">
+        <div class="focus-chamber-hero">
+          <h2 style="font-size: 2rem; font-weight: 800;">⏱️ Deep Focus Chamber</h2>
+          <p style="color: var(--text-muted); margin-top: 6px;">Eliminate distractions, run custom Pomodoro focus blocks, and listen to binaural ambient tones.</p>
+          
+          <div class="big-timer-clock" id="chamberTimerClock">25:00</div>
+
+          <div class="timer-preset-row">
+            <button class="btn-secondary preset-timer-btn" data-mins="15">15 Mins</button>
+            <button class="btn-secondary preset-timer-btn" data-mins="25">25 Mins (Pomodoro)</button>
+            <button class="btn-secondary preset-timer-btn" data-mins="45">45 Mins (Deep Work)</button>
+          </div>
+
+          <div style="margin-bottom: 24px;">
+            <button class="btn-primary" id="chamberStartBtn" style="margin: 0 auto; padding: 14px 36px; font-size: 1.1rem; border-radius: 30px;">
+              ▶️ Start Focus Session
+            </button>
+          </div>
+
+          <div class="ambient-selector-box">
+            <span style="font-weight: 600; font-size: 0.9rem;">🎧 Ambient Sound Machine:</span>
+            <select class="form-select" id="ambientSoundSelect" style="width: auto; padding: 8px 16px;">
+              <option value="off">Off (Silent)</option>
+              <option value="drone">432Hz Binaural Meditation Drone</option>
+              <option value="noise">Focused White Noise Generator</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE VIEW 5: JOURNAL TIMELINE -->
+    <div class="page-view" id="view-journal">
+      <div class="analytics-section">
+        <h3 class="section-title" style="margin-bottom: 20px;"><span>📖</span> Journal & Reflection History</h3>
+        <div id="journalTimelineList"></div>
+      </div>
+    </div>
+
+    <!-- PAGE VIEW 6: PROFILE & REAL-TIME SYNC -->
+    <div class="page-view" id="view-profile">
+      <div class="profile-card">
+        <h3 class="section-title" style="margin-bottom: 20px;"><span>👤</span> Profile & Real-Time Sync</h3>
+        
+        <!-- Multi-Device Sync Code Card -->
+        <div style="background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 24px;">
+          <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: var(--primary);">📲 Multi-Device Real-Time Syncing</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">Enter the same Sync Room Code on your phone, tablet, APK, or laptop to sync habit completions instantly in real-time!</p>
+          
+          <div style="display: flex; gap: 10px;">
+            <input type="text" class="form-input" id="syncRoomCodeInput" placeholder="e.g. AURA-1001" style="max-width: 220px; font-weight: 700; text-transform: uppercase;">
+            <button class="btn-primary" id="joinSyncRoomBtn">🔗 Connect Device Room</button>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+          <div class="form-group">
+            <label class="form-label">Display Name</label>
+            <input type="text" class="form-input" id="profileUsernameInput" value="Aura User">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Color Theme Studio</label>
+            <div style="display: flex; gap: 8px; margin-top: 4px;">
+              <button class="btn-secondary theme-option-btn" data-theme="obsidian" style="padding: 6px 10px; font-size: 0.8rem;">Obsidian 🌑</button>
+              <button class="btn-secondary theme-option-btn" data-theme="neon" style="padding: 6px 10px; font-size: 0.8rem;">Neon 👾</button>
+              <button class="btn-secondary theme-option-btn" data-theme="teal" style="padding: 6px 10px; font-size: 0.8rem;">Teal 🌊</button>
+              <button class="btn-secondary theme-option-btn" data-theme="rose" style="padding: 6px 10px; font-size: 0.8rem;">Rose 🌸</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-bottom: 30px;">
+          <button class="btn-primary" id="saveProfileBtn">💾 Save Profile</button>
+          <button class="btn-secondary" id="exportDataBtn">📥 Backup Data (JSON)</button>
+          <label class="btn-secondary" style="cursor: pointer;">
+            📤 Restore Data
+            <input type="file" id="importDataInput" accept=".json" style="display: none;">
+          </label>
+        </div>
+
+        <h4 style="font-size: 1.1rem; margin-bottom: 14px;">🏆 Unlocked Milestones & Badges</h4>
+        <div class="badges-grid" id="profileBadgesGrid"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal 1: Add / Edit Habit -->
+  <div class="modal-overlay" id="addHabitModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Create New Habit</h3>
+        <button class="close-btn close-modal-btn">&times;</button>
+      </div>
+      <form id="addHabitForm">
+        <div class="form-group">
+          <label class="form-label">Habit Name</label>
+          <input type="text" class="form-input" id="habitNameInput" placeholder="e.g. 20 Mins Reading" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Description (Optional)</label>
+          <input type="text" class="form-input" id="habitDescInput" placeholder="e.g. Non-fiction book or tech articles">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-select" id="habitCategorySelect">
+              <option value="Health">Health 💧</option>
+              <option value="Productivity">Productivity 🧠</option>
+              <option value="Mindfulness">Mindfulness 🧘</option>
+              <option value="Fitness">Fitness 👟</option>
+              <option value="Learning">Learning 📚</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Emoji Icon</label>
+            <input type="text" class="form-input" id="habitIconInput" value="✨">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Tracker Type</label>
+            <select class="form-select" id="habitTypeSelect">
+              <option value="boolean">Simple Checkmark (Done/Not Done)</option>
+              <option value="numeric">Numeric Target (Count / Steps / Water)</option>
+              <option value="duration">Focus Duration (Minutes Timer)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Time of Day</label>
+            <select class="form-select" id="habitTimeOfDaySelect">
+              <option value="Morning">Morning ☀️</option>
+              <option value="Afternoon">Afternoon 🌤️</option>
+              <option value="Evening">Evening 🌙</option>
+              <option value="Anytime">Anytime ⚡</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label class="form-label">Target Goal</label>
+            <input type="number" class="form-input" id="habitTargetInput" value="1" min="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Unit Label</label>
+            <input type="text" class="form-input" id="habitUnitInput" value="times">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Difficulty / XP</label>
+            <select class="form-select" id="habitDifficultySelect">
+              <option value="Easy">Easy (+10 XP)</option>
+              <option value="Medium" selected>Medium (+25 XP)</option>
+              <option value="Hard">Hard (+50 XP)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="saveHabitSubmitBtn" style="width: 100%; margin-top: 16px; justify-content: center;">
+          💾 Save Habit
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Presets -->
+  <div class="modal-overlay" id="presetModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">✨ Pre-designed Routine Templates</h3>
+        <button class="close-btn close-modal-btn">&times;</button>
+      </div>
+      <div id="presetListContainer"></div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Share Card -->
+  <div class="modal-overlay" id="shareModal">
+    <div class="modal-box" style="text-align: center;">
+      <div class="modal-header">
+        <h3 class="modal-title">🎨 Your Habit Mastery Card</h3>
+        <button class="close-btn close-modal-btn">&times;</button>
+      </div>
+      <div id="sharePreviewBox" style="margin-bottom: 20px;"></div>
+      <button class="btn-primary" id="downloadShareCardBtn" style="width: 100%; justify-content: center;">
+        📥 Download PNG Card
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
