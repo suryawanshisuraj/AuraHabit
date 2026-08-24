@@ -515,10 +515,11 @@ class AppController {
   }
 
   bindNavigationRouter() {
-    const navButtons = document.querySelectorAll('.nav-tab-btn');
+    const navButtons = document.querySelectorAll('.nav-tab-btn, .mobile-nav-btn');
     navButtons.forEach(btn => {
       btn.addEventListener('click', (e) => {
         const targetView = e.currentTarget.dataset.view;
+        if (navigator.vibrate) navigator.vibrate(15);
         window.location.hash = targetView;
       });
     });
@@ -532,8 +533,9 @@ class AppController {
   switchView(viewId) {
     this.currentView = viewId;
     soundFx.playClick();
+    if (navigator.vibrate) navigator.vibrate(10);
 
-    document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+    document.querySelectorAll('.nav-tab-btn, .mobile-nav-btn').forEach(btn => {
       if (btn.dataset.view === viewId) btn.classList.add('active');
       else btn.classList.remove('active');
     });
