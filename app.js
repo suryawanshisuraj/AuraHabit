@@ -975,6 +975,16 @@ class AppController {
       this.generateShareCard();
     });
 
+    const handleUpdateCheck = () => {
+      soundFx.playSuccess();
+      triggerConfettiBurst();
+      alert('⚡ Checking for latest live updates... App will refresh with the newest features!');
+      window.location.reload(true);
+    };
+
+    document.getElementById('checkForUpdatesBtn')?.addEventListener('click', handleUpdateCheck);
+    document.getElementById('profileCheckUpdatesBtn')?.addEventListener('click', handleUpdateCheck);
+
     // Pair Sync Room Code
     document.getElementById('joinSyncRoomBtn')?.addEventListener('click', () => {
       const roomInput = document.getElementById('syncRoomCodeInput');
