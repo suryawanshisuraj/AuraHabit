@@ -71,6 +71,36 @@
   --border-glow: rgba(16, 185, 129, 0.4);
 }
 
+:root[data-theme="gold"] {
+  --bg-main: #0c0a09;
+  --bg-card: rgba(28, 25, 23, 0.85);
+  --bg-card-hover: rgba(44, 40, 37, 0.92);
+  --primary: #eab308;
+  --primary-glow: rgba(234, 179, 8, 0.4);
+  --accent-cyan: #f59e0b;
+  --border-glow: rgba(234, 179, 8, 0.4);
+}
+
+:root[data-theme="sunset"] {
+  --bg-main: #120719;
+  --bg-card: rgba(33, 16, 46, 0.82);
+  --bg-card-hover: rgba(52, 25, 71, 0.92);
+  --primary: #f43f5e;
+  --primary-glow: rgba(244, 63, 94, 0.4);
+  --accent-cyan: #fb923c;
+  --border-glow: rgba(244, 63, 94, 0.4);
+}
+
+:root[data-theme="dracula"] {
+  --bg-main: #181825;
+  --bg-card: rgba(30, 30, 46, 0.85);
+  --bg-card-hover: rgba(49, 50, 68, 0.92);
+  --primary: #cba6f7;
+  --primary-glow: rgba(203, 166, 247, 0.4);
+  --accent-cyan: #89b4fa;
+  --border-glow: rgba(203, 166, 247, 0.4);
+}
+
 /* Base Reset & Styling */
 * {
   box-sizing: border-box;
