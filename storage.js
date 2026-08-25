@@ -237,19 +237,11 @@ function getDefaultHabits() {
 function createDefaultState() {
   return {
     habits: getDefaultHabits(),
-    logs: generateDemoLogs(),
-    moods: generateDemoMoods(),
-    user: {
-      name: 'Aura User',
-      xp: 280,
-      level: 3,
-      theme: 'obsidian',
-      soundEnabled: true,
-      ambientSound: 'off',
-      syncRoom: getSyncRoomId()
-    },
-    unlockedBadges: ['first_step', 'streak_3'],
-    focusSessions: generateDemoFocusSessions()
+    logs: {},
+    moods: {},
+    user: { name: 'Achiever', xp: 0, level: 1, theme: 'obsidian', soundEnabled: true, ambientSound: 'off', syncRoom: getSyncRoomId() },
+    unlockedBadges: [],
+    focusSessions: []
   };
 }
 
