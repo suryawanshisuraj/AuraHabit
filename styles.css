@@ -116,42 +116,93 @@
 }
 
 :root[data-theme="light"] {
-  --bg-main: #f8fafc;
+  --bg-main: #f1f5f9;
   --bg-card: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --border-color: #e2e8f0;
-  --border-glow: rgba(2, 132, 199, 0.3);
+  --bg-card-hover: #f8fafc;
+  --border-color: #cbd5e1;
+  --border-glow: rgba(2, 132, 199, 0.4);
   --primary: #0284c7;
   --primary-glow: rgba(2, 132, 199, 0.2);
-  --accent-cyan: #0ea5e9;
+  --accent-cyan: #0284c7;
   --accent-amber: #d97706;
   --accent-emerald: #059669;
   --text-main: #0f172a;
-  --text-muted: #475569;
-  --text-subtle: #64748b;
+  --text-muted: #334155;
+  --text-subtle: #475569;
   --glass-backdrop: none;
-  --shadow-main: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-  --shadow-glow: 0 0 15px rgba(2, 132, 199, 0.15);
+  --shadow-main: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-glow: none;
+}
+
+:root[data-theme="light"] body::before,
+:root[data-theme="light"] body::after {
+  display: none;
 }
 
 :root[data-theme="light"] .form-input,
 :root[data-theme="light"] .form-select,
 :root[data-theme="light"] .journal-textarea {
   background: #ffffff;
-  border-color: #cbd5e1;
+  border: 1px solid #cbd5e1;
   color: #0f172a;
 }
 
-:root[data-theme="light"] .mobile-bottom-nav {
-  background: rgba(255, 255, 255, 0.95);
-  border-top-color: #e2e8f0;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+:root[data-theme="light"] .quote-box,
+:root[data-theme="light"] .insight-item,
+:root[data-theme="light"] .habit-icon-badge,
+:root[data-theme="light"] .week-day-btn,
+:root[data-theme="light"] .xp-level-pill,
+:root[data-theme="light"] .icon-btn,
+:root[data-theme="light"] .habit-meta-pill,
+:root[data-theme="light"] .filter-tabs {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #334155;
 }
 
-:root[data-theme="light"] .logo-title {
-  background: linear-gradient(135deg, #0f172a 30%, #475569);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+:root[data-theme="light"] .nav-tab-btn {
+  color: #475569;
+}
+
+:root[data-theme="light"] .nav-tab-btn.active {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+:root[data-theme="light"] .mobile-bottom-nav {
+  background: #ffffff;
+  border-top: 1px solid #cbd5e1;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .mobile-nav-btn {
+  color: #64748b;
+}
+
+:root[data-theme="light"] .mobile-nav-btn.active {
+  color: #0284c7;
+}
+
+:root[data-theme="light"] .modal-overlay {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+:root[data-theme="light"] .modal-box {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .modal-title,
+:root[data-theme="light"] .habit-name,
+:root[data-theme="light"] .section-title,
+:root[data-theme="light"] .greeting-text,
+:root[data-theme="light"] .ring-percentage {
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .ring-bg {
+  stroke: #e2e8f0;
 }
 
 /* Base Reset & Styling */
