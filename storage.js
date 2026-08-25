@@ -239,7 +239,7 @@ function createDefaultState() {
     habits: getDefaultHabits(),
     logs: {},
     moods: {},
-    user: { name: 'Achiever', xp: 0, level: 1, theme: 'obsidian', soundEnabled: true, ambientSound: 'off', syncRoom: getSyncRoomId() },
+    user: { name: 'Achiever', xp: 0, level: 1, theme: 'minimal', soundEnabled: true, ambientSound: 'off', syncRoom: getSyncRoomId() },
     unlockedBadges: [],
     focusSessions: []
   };

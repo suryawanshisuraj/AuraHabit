@@ -101,6 +101,20 @@
   --border-glow: rgba(203, 166, 247, 0.4);
 }
 
+:root[data-theme="minimal"] {
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(56, 189, 248, 0.3);
+  --primary: #38bdf8;
+  --primary-glow: rgba(56, 189, 248, 0.2);
+  --accent-cyan: #38bdf8;
+  --glass-backdrop: none;
+  --shadow-main: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-glow: none;
+}
+
 /* Base Reset & Styling */
 * {
   box-sizing: border-box;
