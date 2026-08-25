@@ -150,93 +150,12 @@ export function subscribeLiveSync(callback) {
 }
 
 function getDefaultHabits() {
-  return [
-    {
-      id: 'h_1',
-      name: 'Morning Hydration',
-      description: 'Drink 2 full glasses of water right after waking up',
-      category: 'Health',
-      icon: '💧',
-      color: '#06b6d4',
-      type: 'numeric',
-      targetValue: 2,
-      unit: 'glasses',
-      timeOfDay: 'Morning',
-      difficulty: 'Easy',
-      xpValue: 10,
-      archived: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 'h_2',
-      name: 'Mindful Meditation',
-      description: 'Guided breathing and mental stillness session',
-      category: 'Mindfulness',
-      icon: '🧘',
-      color: '#8b5cf6',
-      type: 'duration',
-      targetValue: 15,
-      unit: 'mins',
-      timeOfDay: 'Morning',
-      difficulty: 'Medium',
-      xpValue: 25,
-      archived: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 'h_3',
-      name: 'Deep Code & Project Focus',
-      description: 'Uninterrupted block dedicated to core development',
-      category: 'Productivity',
-      icon: '💻',
-      color: '#3b82f6',
-      type: 'duration',
-      targetValue: 45,
-      unit: 'mins',
-      timeOfDay: 'Afternoon',
-      difficulty: 'Hard',
-      xpValue: 50,
-      archived: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 'h_4',
-      name: 'Daily Movement Goal',
-      description: 'Brisk walk or cardio session to stay active',
-      category: 'Fitness',
-      icon: '👟',
-      color: '#10b981',
-      type: 'numeric',
-      targetValue: 8000,
-      unit: 'steps',
-      timeOfDay: 'Anytime',
-      difficulty: 'Medium',
-      xpValue: 25,
-      archived: false,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 'h_5',
-      name: 'Evening Reflection & Gratitude',
-      description: 'Write down key learnings and achievements of the day',
-      category: 'Learning',
-      icon: '📖',
-      color: '#f59e0b',
-      type: 'boolean',
-      targetValue: 1,
-      unit: 'check',
-      timeOfDay: 'Evening',
-      difficulty: 'Easy',
-      xpValue: 10,
-      archived: false,
-      createdAt: new Date().toISOString()
-    }
-  ];
+  return [];
 }
 
 function createDefaultState() {
   return {
-    habits: getDefaultHabits(),
+    habits: [],
     logs: {},
     moods: {},
     user: { name: 'Achiever', xp: 0, level: 1, theme: 'light', soundEnabled: true, ambientSound: 'off', syncRoom: getSyncRoomId() },
