@@ -582,6 +582,14 @@ class AppController {
     const xpBarEl = document.getElementById('userXPBarFill');
     if (xpBarEl) xpBarEl.style.width = `${levelInfo.percentage}%`;
 
+    const activeTheme = this.data.user.theme || 'light';
+    document.documentElement.setAttribute('data-theme', activeTheme);
+
+    const themeBtn = document.getElementById('headerThemeToggleBtn');
+    if (themeBtn) {
+      themeBtn.innerText = (activeTheme === 'light') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    }
+
     const soundBtn = document.getElementById('soundToggleBtn');
     if (soundBtn) soundBtn.innerText = this.data.user.soundEnabled ? '🔊' : '🔇';
 
@@ -1381,6 +1389,16 @@ class AppController {
   }
 
   bindEvents() {
+    document.getElementById('headerThemeToggleBtn')?.addEventListener('click', () => {
+      const currentTheme = this.data.user.theme || 'light';
+      const newTheme = (currentTheme === 'light') ? 'obsidian' : 'light';
+      this.data.user.theme = newTheme;
+      document.documentElement.setAttribute('data-theme', newTheme);
+      saveAppData(this.data);
+      soundFx.playClick();
+      this.renderHeader();
+    });
+
     document.getElementById('soundToggleBtn')?.addEventListener('click', () => {
       this.data.user.soundEnabled = !this.data.user.soundEnabled;
       soundFx.setEnabled(this.data.user.soundEnabled);
