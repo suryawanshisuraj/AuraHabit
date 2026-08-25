@@ -115,6 +115,45 @@
   --shadow-glow: none;
 }
 
+:root[data-theme="light"] {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --border-color: #e2e8f0;
+  --border-glow: rgba(2, 132, 199, 0.3);
+  --primary: #0284c7;
+  --primary-glow: rgba(2, 132, 199, 0.2);
+  --accent-cyan: #0ea5e9;
+  --accent-amber: #d97706;
+  --accent-emerald: #059669;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-subtle: #64748b;
+  --glass-backdrop: none;
+  --shadow-main: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 15px rgba(2, 132, 199, 0.15);
+}
+
+:root[data-theme="light"] .form-input,
+:root[data-theme="light"] .form-select,
+:root[data-theme="light"] .journal-textarea {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .mobile-bottom-nav {
+  background: rgba(255, 255, 255, 0.95);
+  border-top-color: #e2e8f0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+}
+
+:root[data-theme="light"] .logo-title {
+  background: linear-gradient(135deg, #0f172a 30%, #475569);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Base Reset & Styling */
 * {
   box-sizing: border-box;
