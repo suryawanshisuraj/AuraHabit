@@ -1303,4 +1303,27 @@ body::after {
   }
 }
 
+@media (max-width: 600px) {
+  div[style*="grid-template-columns: 1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .user-badge-row {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  .user-badge-row button {
+    font-size: 0.75rem !important;
+    padding: 6px 8px !important;
+  }
+
+  .modal-box {
+    width: 94vw !important;
+    padding: 18px 14px !important;
+  }
+}
+
 
