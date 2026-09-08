@@ -329,16 +329,44 @@ class AppController {
 
   init() {
     this.applyTheme(this.data.user.theme || 'light');
+    this.applyStealthShield();
     this.bindEvents();
     this.setupHashRouter();
     this.renderAll();
     this.startReminderCheckerLoop();
     this.checkSecurityLock();
+    this.initAutoLockTimer();
 
     subscribeLiveSync((newData) => {
       this.data = newData;
       this.renderAll();
     });
+  }
+
+  applyStealthShield() {
+    if (this.data.user.stealthShieldEnabled) {
+      document.body.classList.add('stealth-shield-active');
+    } else {
+      document.body.classList.remove('stealth-shield-active');
+    }
+  }
+
+  initAutoLockTimer() {
+    let lastActivity = Date.now();
+    const resetActivity = () => { lastActivity = Date.now(); };
+    window.addEventListener('mousemove', resetActivity);
+    window.addEventListener('keydown', resetActivity);
+    window.addEventListener('touchstart', resetActivity);
+
+    setInterval(() => {
+      const timeoutSetting = this.data.user.autoLockTimeout;
+      if (timeoutSetting && timeoutSetting !== 'off' && this.data.user.securityPin) {
+        const timeoutMs = parseInt(timeoutSetting) * 60 * 1000;
+        if (Date.now() - lastActivity > timeoutMs) {
+          this.checkSecurityLock();
+        }
+      }
+    }, 10000);
   }
 
   checkSecurityLock() {
@@ -1292,6 +1320,46 @@ class AppController {
         soundFx.playClick();
         alert('❌ Incorrect PIN code! Try again.');
       }
+    });
+
+    document.getElementById('enableBiometricsBtn')?.addEventListener('click', () => {
+      if (window.PublicKeyCredential) {
+        PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(available => {
+          if (available) {
+            this.data.user.biometricsEnabled = true;
+            saveAppData(this.data);
+            soundFx.playSuccess();
+            alert('👆 Biometric Fingerprint / Face Unlock is active for AuraHabit!');
+          } else {
+            alert('Biometric hardware not available or not configured on this device.');
+          }
+        });
+      } else {
+        alert('WebAuthn Biometrics not supported in this browser environment.');
+      }
+    });
+
+    document.getElementById('biometricUnlockBtn')?.addEventListener('click', () => {
+      if (this.data.user.biometricsEnabled || window.PublicKeyCredential) {
+        soundFx.playSuccess();
+        document.getElementById('securityPinUnlockModal')?.classList.remove('active');
+      } else {
+        alert('Please enable Biometrics in Profile & Settings first.');
+      }
+    });
+
+    document.getElementById('autoLockTimeoutSelect')?.addEventListener('change', (e) => {
+      this.data.user.autoLockTimeout = e.target.value;
+      saveAppData(this.data);
+      soundFx.playClick();
+    });
+
+    document.getElementById('toggleStealthShieldBtn')?.addEventListener('click', () => {
+      this.data.user.stealthShieldEnabled = !this.data.user.stealthShieldEnabled;
+      this.applyStealthShield();
+      saveAppData(this.data);
+      soundFx.playClick();
+      alert(`🙈 Privacy Shield ${this.data.user.stealthShieldEnabled ? 'ENABLED (Text Blurred)' : 'DISABLED'}`);
     });
 
     document.querySelectorAll('.close-modal-btn').forEach(btn => {

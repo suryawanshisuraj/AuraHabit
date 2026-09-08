@@ -205,6 +205,19 @@
   stroke: #e2e8f0;
 }
 
+/* Privacy Stealth Blur Shield */
+.stealth-shield-active .journal-textarea,
+.stealth-shield-active #journalTimelineList p {
+  filter: blur(6px);
+  transition: filter 0.3s ease;
+}
+
+.stealth-shield-active .journal-textarea:hover,
+.stealth-shield-active .journal-textarea:focus,
+.stealth-shield-active #journalTimelineList p:hover {
+  filter: blur(0px);
+}
+
 /* Base Reset & Styling */
 * {
   box-sizing: border-box;
