@@ -205,7 +205,6 @@ class AudioSynthesizer {
   constructor() {
     this.ctx = null;
     this.enabled = true;
-    this.ambientGain = null;
   }
 
   initContext() {
@@ -609,7 +608,7 @@ class AppController {
         </div>
       `;
 
-      card.querySelector('.check-toggle-btn').addEventListener('click', (e) => {
+      card.querySelector('.check-toggle-btn').addEventListener('click', () => {
         if (navigator.vibrate) navigator.vibrate([15, 30, 25]);
         this.toggleHabitCompletion(habit.id);
       });
@@ -849,6 +848,56 @@ class AppController {
     timerText.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   }
 
+  togglePomodoro() {
+    const btn = document.getElementById('startTimerBtn');
+    if (this.pomodoro.isRunning) {
+      clearInterval(this.pomodoro.timerId);
+      this.pomodoro.isRunning = false;
+      if (btn) btn.innerText = '▶️ Start Focus';
+      soundFx.playClick();
+    } else {
+      this.pomodoro.isRunning = true;
+      if (btn) btn.innerText = '⏸️ Pause Focus';
+      soundFx.playClick();
+
+      this.pomodoro.timerId = setInterval(() => {
+        if (this.pomodoro.secondsLeft > 0) {
+          this.pomodoro.secondsLeft--;
+          this.renderFocusChamberPage();
+        } else {
+          clearInterval(this.pomodoro.timerId);
+          this.pomodoro.isRunning = false;
+          if (btn) btn.innerText = '▶️ Start Focus';
+          soundFx.playSuccess();
+          triggerConfettiBurst();
+          alert('🎉 Focus Session Completed! Take a short break.');
+        }
+      }, 1000);
+    }
+  }
+
+  setPomodoroTime(mins) {
+    if (this.pomodoro.isRunning) {
+      clearInterval(this.pomodoro.timerId);
+      this.pomodoro.isRunning = false;
+      const btn = document.getElementById('startTimerBtn');
+      if (btn) btn.innerText = '▶️ Start Focus';
+    }
+    this.pomodoro.secondsLeft = mins * 60;
+    this.renderFocusChamberPage();
+  }
+
+  resetPomodoro() {
+    if (this.pomodoro.isRunning) {
+      clearInterval(this.pomodoro.timerId);
+      this.pomodoro.isRunning = false;
+    }
+    const btn = document.getElementById('startTimerBtn');
+    if (btn) btn.innerText = '▶️ Start Focus';
+    this.pomodoro.secondsLeft = 1500;
+    this.renderFocusChamberPage();
+  }
+
   renderJournalTimelinePage() {
     const list = document.getElementById('journalTimelineList');
     if (!list) return;
@@ -986,6 +1035,17 @@ class AppController {
   }
 
   bindEvents() {
+    document.querySelectorAll('.nav-tab-btn, .mobile-nav-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const view = e.currentTarget.dataset.view;
+        if (view) {
+          window.location.hash = view;
+          this.switchView(view);
+          soundFx.playClick();
+        }
+      });
+    });
+
     document.getElementById('headerThemeToggleBtn')?.addEventListener('click', () => {
       const currentTheme = this.data.user.theme || 'light';
       const newTheme = (currentTheme === 'light') ? 'obsidian' : 'light';
@@ -1008,6 +1068,24 @@ class AppController {
       } else {
         alert('Web Notifications not supported in this browser environment.');
       }
+    });
+
+    document.getElementById('startTimerBtn')?.addEventListener('click', () => {
+      soundFx.playClick();
+      this.togglePomodoro();
+    });
+
+    document.getElementById('resetTimerBtn')?.addEventListener('click', () => {
+      soundFx.playClick();
+      this.resetPomodoro();
+    });
+
+    document.querySelectorAll('.preset-timer-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const mins = parseInt(e.currentTarget.dataset.time);
+        soundFx.playClick();
+        this.setPomodoroTime(mins);
+      });
     });
 
     document.getElementById('voiceRecordBtn')?.addEventListener('click', () => {
@@ -1114,7 +1192,6 @@ class AppController {
       });
     });
 
-    // Check for App & Code Updates Handlers
     const handleUpdateCheck = () => {
       soundFx.playSuccess();
       triggerConfettiBurst();
