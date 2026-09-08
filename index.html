@@ -254,6 +254,18 @@
           </div>
         </div>
 
+        <!-- Security & Privacy Lock Card -->
+        <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 24px;">
+          <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: var(--primary);">🔒 Security & PIN Lock Privacy</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">Set a 4-digit PIN code to lock your habit entries, journal reflections, and personal progress data.</p>
+          
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <input type="password" class="form-input" id="securityPinInput" placeholder="Set 4-Digit PIN" maxlength="4" style="max-width: 180px; font-weight: 700; letter-spacing: 4px;">
+            <button class="btn-primary" id="saveSecurityPinBtn">🔒 Enable PIN Lock</button>
+            <button class="btn-secondary" id="disableSecurityPinBtn" style="color: #ef4444; border-color: rgba(239,68,68,0.3);">🔓 Remove Lock</button>
+          </div>
+        </div>
+
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
           <div class="form-group">
             <label class="form-label">Display Name</label>
@@ -468,7 +480,18 @@
       <span class="m-icon">👤</span>
       <span>Profile</span>
     </button>
-  </nav>
+  <!-- Security PIN Unlock Overlay Modal -->
+  <div class="modal-overlay" id="securityPinUnlockModal" style="z-index: 99999; background: rgba(15, 23, 42, 0.96);">
+    <div class="modal-box" style="max-width: 380px; text-align: center;">
+      <div style="font-size: 3rem; margin-bottom: 10px;">🔒</div>
+      <h3 class="modal-title" style="margin-bottom: 8px;">AuraHabit Secure Lock</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">Enter your 4-digit passcode to unlock your habits.</p>
+      
+      <input type="password" class="form-input" id="unlockPinInput" maxlength="4" placeholder="••••" style="font-size: 2rem; text-align: center; letter-spacing: 12px; margin-bottom: 20px; width: 100%;">
+      
+      <button class="btn-primary" id="submitUnlockPinBtn" style="width: 100%; padding: 12px; font-size: 1.05rem;">🔓 Unlock App</button>
+    </div>
+  </div>
 
   <script src="bundle.js"></script>
 </body>

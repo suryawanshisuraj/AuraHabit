@@ -333,11 +333,19 @@ class AppController {
     this.setupHashRouter();
     this.renderAll();
     this.startReminderCheckerLoop();
+    this.checkSecurityLock();
 
     subscribeLiveSync((newData) => {
       this.data = newData;
       this.renderAll();
     });
+  }
+
+  checkSecurityLock() {
+    if (this.data.user.securityPin) {
+      const modal = document.getElementById('securityPinUnlockModal');
+      if (modal) modal.classList.add('active');
+    }
   }
 
   applyTheme(theme) {
@@ -1248,6 +1256,42 @@ class AppController {
         }
       };
       reader.readAsText(file);
+    });
+
+    document.getElementById('saveSecurityPinBtn')?.addEventListener('click', () => {
+      const pinInput = document.getElementById('securityPinInput');
+      const pin = pinInput?.value.trim();
+      if (pin && pin.length === 4 && /^\d{4}$/.test(pin)) {
+        this.data.user.securityPin = pin;
+        saveAppData(this.data);
+        soundFx.playSuccess();
+        alert('🔒 Security PIN Enabled! AuraHabit is now protected with a 4-digit passcode.');
+        if (pinInput) pinInput.value = '';
+      } else {
+        alert('Please enter a valid 4-digit numeric PIN.');
+      }
+    });
+
+    document.getElementById('disableSecurityPinBtn')?.addEventListener('click', () => {
+      if (confirm('Remove PIN lock security?')) {
+        this.data.user.securityPin = null;
+        saveAppData(this.data);
+        soundFx.playClick();
+        alert('🔓 Security PIN lock removed.');
+      }
+    });
+
+    document.getElementById('submitUnlockPinBtn')?.addEventListener('click', () => {
+      const input = document.getElementById('unlockPinInput');
+      const pin = input?.value.trim();
+      if (pin === this.data.user.securityPin) {
+        soundFx.playSuccess();
+        document.getElementById('securityPinUnlockModal')?.classList.remove('active');
+        if (input) input.value = '';
+      } else {
+        soundFx.playClick();
+        alert('❌ Incorrect PIN code! Try again.');
+      }
     });
 
     document.querySelectorAll('.close-modal-btn').forEach(btn => {
