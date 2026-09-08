@@ -17,7 +17,7 @@
       <div class="logo-group">
         <div class="logo-icon">⚡</div>
         <div>
-          <h1 class="logo-title">AuraHabit <span style="font-size: 0.72rem; background: #10b981; padding: 2px 8px; border-radius: 12px; color: #fff; vertical-align: middle;">v1.5.0 VERIFIED</span></h1>
+          <h1 class="logo-title">AuraHabit <span style="font-size: 0.72rem; background: #10b981; padding: 2px 8px; border-radius: 12px; color: #fff; vertical-align: middle;">v2.0 PRO</span></h1>
         </div>
       </div>
 
@@ -37,6 +37,7 @@
         </div>
 
         <button class="icon-btn" id="headerThemeToggleBtn" title="Toggle Light/Dark Theme" style="width: auto; padding: 0 10px; font-size: 0.82rem; gap: 6px;">☀️ Light Mode</button>
+        <button class="icon-btn" id="enableNotificationsBtn" title="Enable Push Reminders" style="width: auto; padding: 0 10px; font-size: 0.82rem; gap: 6px;">🔔 Reminders</button>
         <button class="icon-btn" id="soundToggleBtn" title="Toggle Sound FX">🔊</button>
         <button class="icon-btn" id="shareCardBtn" title="Generate Streak Card">🎨</button>
         <button class="icon-btn" id="checkForUpdatesBtn" title="Check for App & Code Updates">🔄 Update</button>
@@ -50,6 +51,7 @@
       <button class="nav-tab-btn" data-view="habits">📋 Manage Habits</button>
       <button class="nav-tab-btn" data-view="timer">⏱️ Focus Chamber</button>
       <button class="nav-tab-btn" data-view="journal">📖 Journal</button>
+      <button class="nav-tab-btn" data-view="leaderboard">🏆 Room Leaderboard</button>
       <button class="nav-tab-btn" data-view="profile">👤 Profile & Sync</button>
     </nav>
 
@@ -58,10 +60,10 @@
       <section class="hero-banner">
         <div class="hero-main-card">
           <div>
-            <h2 class="greeting-text" id="heroGreeting">Good Day, Achiever!</h2>
-            <p class="greeting-sub" id="heroDateSubtext">Loading daily habit summary...</p>
+            <h2 class="greeting-text" id="heroGreeting">Good Morning, Achiever!</h2>
+            <p class="greeting-sub" id="heroDateSubtext">Loading today's schedule...</p>
           </div>
-          <div class="quote-box" id="heroQuote">
+          <div class="quote-box">
             "Consistency is what transforms average into excellence."
           </div>
         </div>
@@ -71,24 +73,45 @@
             <svg class="progress-ring-svg" viewBox="0 0 120 120">
               <defs>
                 <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#06b6d4" />
-                  <stop offset="100%" stop-color="#6366f1" />
+                  <stop offset="0%" stop-color="var(--primary)" />
+                  <stop offset="100%" stop-color="var(--accent-cyan)" />
                 </linearGradient>
               </defs>
               <circle class="ring-bg" cx="60" cy="60" r="54" />
               <circle class="ring-progress" id="heroRingProgress" cx="60" cy="60" r="54" />
             </svg>
             <div class="ring-center-text">
-              <span class="ring-percentage" id="heroRingPercentage">0%</span>
+              <span class="ring-percentage" id="heroRingPct">0%</span>
               <span class="ring-label">DONE</span>
             </div>
           </div>
-          <div style="font-weight: 600; font-size: 0.9rem;">Daily Goal Ring</div>
+          <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">Daily Goal Ring</div>
         </div>
       </section>
 
-      <div class="week-strip-card" id="weekStripContainer"></div>
+      <!-- Routine Stacking Strip -->
+      <section style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 18px 22px; margin-bottom: 24px;">
+        <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 12px;"><span>🎯</span> Routine Stacks & Habit Chains</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
+          <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.25); border-radius: 12px; padding: 14px;">
+            <div style="font-weight: 700; font-size: 0.92rem; color: var(--primary);">☀️ Morning Routine Chain</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;" id="morningStackText">Hydrate ➔ Stretch ➔ Mindful Focus</div>
+          </div>
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px; padding: 14px;">
+            <div style="font-weight: 700; font-size: 0.92rem; color: var(--accent-amber);">🌤️ Afternoon Focus Chain</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;" id="afternoonStackText">Deep Work ➔ Posture Reset</div>
+          </div>
+          <div style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: 12px; padding: 14px;">
+            <div style="font-weight: 700; font-size: 0.92rem; color: #8b5cf6;">🌙 Evening Wind Down Chain</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;" id="eveningStackText">Screen Free ➔ Journaling</div>
+          </div>
+        </div>
+      </section>
 
+      <!-- Week Day Selector Strip -->
+      <section class="week-strip-card" id="weekStripContainer"></section>
+
+      <!-- Filter Controls & Action Bar -->
       <div class="controls-bar">
         <div class="filter-tabs">
           <button class="filter-btn active" data-filter="all">All Habits</button>
@@ -98,32 +121,37 @@
         </div>
 
         <div class="action-btn-group">
-          <button class="btn-secondary" id="presetTemplatesBtn">✨ Presets</button>
+          <button class="btn-secondary" id="openPresetsModalBtn">✨ Presets</button>
           <button class="btn-primary" id="addHabitBtn">➕ Add Custom Habit</button>
         </div>
       </div>
 
+      <!-- Today's Habits Cards Grid -->
       <main class="habits-grid" id="habitsGrid"></main>
 
+      <!-- Mood & Reflections Section -->
       <section class="grid-two-col">
         <div class="mood-card">
-          <h3 class="section-title" style="margin-bottom: 16px;">
-            <span>📝</span> Daily Reflection & Mood
-          </h3>
+          <h3 class="section-title"><span>😊</span> Daily Mood Tracker</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">How are you feeling today?</p>
+          
           <div class="mood-selector">
-            <button class="mood-btn" data-mood="energized">⚡ <span>Energized</span></button>
-            <button class="mood-btn" data-mood="happy">😊 <span>Happy</span></button>
-            <button class="mood-btn" data-mood="calm">🧘 <span>Calm</span></button>
-            <button class="mood-btn" data-mood="neutral">😐 <span>Neutral</span></button>
-            <button class="mood-btn" data-mood="low">🌧️ <span>Low</span></button>
+            <button class="mood-btn" data-mood="energized">⚡<span>Energized</span></button>
+            <button class="mood-btn" data-mood="happy">😊<span>Happy</span></button>
+            <button class="mood-btn" data-mood="calm">😌<span>Calm</span></button>
+            <button class="mood-btn" data-mood="neutral">😐<span>Neutral</span></button>
+            <button class="mood-btn" data-mood="tired">😴<span>Tired</span></button>
           </div>
-          <textarea class="journal-textarea" id="journalNoteArea" placeholder="Log today's thoughts, achievements, or reflections..."></textarea>
+
+          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+            <label class="form-label" style="margin: 0; flex: 1;">Reflection Note</label>
+            <button class="btn-secondary" id="voiceRecordBtn" style="padding: 4px 10px; font-size: 0.78rem;">🎙️ Voice Note</button>
+          </div>
+          <textarea class="journal-textarea" id="journalNoteArea" placeholder="Write a short reflection about your day or tap Voice Note..."></textarea>
         </div>
 
         <div class="insights-card">
-          <h3 class="section-title" style="margin-bottom: 16px;">
-            <span>🧠</span> Smart Habit Insights
-          </h3>
+          <h3 class="section-title"><span>💡</span> Smart Habit Insights</h3>
           <div id="insightsList"></div>
         </div>
       </section>
@@ -131,15 +159,31 @@
 
     <!-- PAGE VIEW 2: ANALYTICS -->
     <div class="page-view" id="view-analytics">
-      <div id="analyticsPageContent"></div>
+      <div class="analytics-section">
+        <h3 class="section-title" style="margin-bottom: 20px;"><span>📈</span> Consistency & Heatmap Analytics</h3>
+        
+        <div class="grid-two-col" style="margin-bottom: 24px;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Current Active Streak</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: var(--accent-amber);" id="statBestStreak">0 Days</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Total Habits Completed</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: var(--primary);" id="statTotalCompletions">0</div>
+          </div>
+        </div>
+
+        <h4 style="font-size: 1rem; margin-bottom: 10px;">Annual Activity Heatmap</h4>
+        <div class="heatmap-container" id="activityHeatmap"></div>
+      </div>
     </div>
 
-    <!-- PAGE VIEW 3: HABITS MANAGEMENT -->
+    <!-- PAGE VIEW 3: MANAGE HABITS -->
     <div class="page-view" id="view-habits">
       <div class="analytics-section">
-        <div class="section-title-group">
-          <h3 class="section-title"><span>📋</span> Habit Directory & Routines</h3>
-          <button class="btn-primary" onclick="document.getElementById('addHabitBtn').click()">➕ New Habit</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h3 class="section-title"><span>📋</span> Habit Management</h3>
+          <button class="btn-primary" id="manageAddHabitBtn">➕ Create New Habit</button>
         </div>
         <div id="allHabitsList"></div>
       </div>
@@ -149,29 +193,28 @@
     <div class="page-view" id="view-timer">
       <div class="focus-chamber-card">
         <div class="focus-chamber-hero">
-          <h2 style="font-size: 2rem; font-weight: 800;">⏱️ Deep Focus Chamber</h2>
-          <p style="color: var(--text-muted); margin-top: 6px;">Eliminate distractions, run custom Pomodoro focus blocks, and listen to binaural ambient tones.</p>
-          
+          <h3 class="section-title" style="justify-content: center;"><span>⏱️</span> Deep Focus Chamber (Pomodoro)</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Immerse in distraction-free deep work sessions</p>
+
           <div class="big-timer-clock" id="chamberTimerClock">25:00</div>
 
           <div class="timer-preset-row">
-            <button class="btn-secondary preset-timer-btn" data-mins="15">15 Mins</button>
-            <button class="btn-secondary preset-timer-btn" data-mins="25">25 Mins (Pomodoro)</button>
-            <button class="btn-secondary preset-timer-btn" data-mins="45">45 Mins (Deep Work)</button>
+            <button class="btn-secondary preset-timer-btn" data-time="15">15 Mins</button>
+            <button class="btn-secondary preset-timer-btn" data-time="25">25 Mins (Pomodoro)</button>
+            <button class="btn-secondary preset-timer-btn" data-time="45">45 Mins (Deep Work)</button>
           </div>
 
-          <div style="margin-bottom: 24px;">
-            <button class="btn-primary" id="chamberStartBtn" style="margin: 0 auto; padding: 14px 36px; font-size: 1.1rem; border-radius: 30px;">
-              ▶️ Start Focus Session
-            </button>
+          <div style="display: flex; justify-content: center; gap: 14px;">
+            <button class="btn-primary" id="startTimerBtn" style="padding: 12px 36px; font-size: 1.1rem;">▶️ Start Focus</button>
+            <button class="btn-secondary" id="resetTimerBtn" style="padding: 12px 24px;">🔄 Reset</button>
           </div>
 
           <div class="ambient-selector-box">
-            <span style="font-weight: 600; font-size: 0.9rem;">🎧 Ambient Sound Machine:</span>
-            <select class="form-select" id="ambientSoundSelect" style="width: auto; padding: 8px 16px;">
-              <option value="off">Off (Silent)</option>
-              <option value="drone">432Hz Binaural Meditation Drone</option>
-              <option value="noise">Focused White Noise Generator</option>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Ambient Audio Generator:</span>
+            <select class="form-select" id="ambientAudioSelect" style="max-width: 180px;">
+              <option value="off">Off (Silence)</option>
+              <option value="white_noise">White Noise</option>
+              <option value="binaural">Binaural Waves</option>
             </select>
           </div>
         </div>
@@ -186,13 +229,22 @@
       </div>
     </div>
 
-    <!-- PAGE VIEW 6: PROFILE & REAL-TIME SYNC -->
+    <!-- PAGE VIEW 6: ROOM LEADERBOARD -->
+    <div class="page-view" id="view-leaderboard">
+      <div class="analytics-section">
+        <h3 class="section-title" style="margin-bottom: 20px;"><span>🏆</span> Room Sync Leaderboard & Challenges</h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">Compare your XP, streaks, and habit completions live with paired room members!</p>
+        <div id="leaderboardMembersList"></div>
+      </div>
+    </div>
+
+    <!-- PAGE VIEW 7: PROFILE & REAL-TIME SYNC -->
     <div class="page-view" id="view-profile">
       <div class="profile-card">
-        <h3 class="section-title" style="margin-bottom: 20px;"><span>👤</span> Profile & Real-Time Sync</h3>
+        <h3 class="section-title" style="margin-bottom: 20px;"><span>👤</span> Profile, Rewards & Settings</h3>
         
         <!-- Multi-Device Sync Code Card -->
-        <div style="background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 24px;">
+        <div style="background: rgba(2, 132, 199, 0.1); border: 1px solid rgba(2, 132, 199, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 24px;">
           <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: var(--primary);">📲 Multi-Device Real-Time Syncing</h4>
           <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">Enter the same Sync Room Code on your phone, tablet, APK, or laptop to sync habit completions instantly in real-time!</p>
           
@@ -205,7 +257,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
           <div class="form-group">
             <label class="form-label">Display Name</label>
-            <input type="text" class="form-input" id="profileUsernameInput" value="Aura User">
+            <input type="text" class="form-input" id="profileUsernameInput" value="Achiever">
           </div>
           
           <div class="form-group">
@@ -225,20 +277,44 @@
           </div>
         </div>
 
-        <div style="display: flex; gap: 12px; margin-bottom: 30px;">
+        <div style="display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap;">
           <button class="btn-primary" id="saveProfileBtn">💾 Save Profile</button>
-          <button class="btn-secondary" id="exportDataBtn">📥 Backup Data (JSON)</button>
+          <button class="btn-secondary" id="exportCsvBtn">📊 Export CSV Logs</button>
+          <button class="btn-secondary" id="exportPdfBtn">📄 Download PDF Report</button>
+          <button class="btn-secondary" id="exportDataBtn">📥 Backup JSON</button>
           <label class="btn-secondary" style="cursor: pointer;">
-            📤 Restore Data
+            📤 Restore JSON
             <input type="file" id="importDataInput" accept=".json" style="display: none;">
           </label>
+        </div>
+
+        <!-- XP Reward Shop Section -->
+        <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 16px; padding: 20px; margin-bottom: 30px;">
+          <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--accent-amber); margin-bottom: 10px;">🛍️ XP Reward Shop</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">Redeem your earned habit XP for custom titles, avatars, and perks!</p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700; font-size: 0.9rem;">👑 Golden Achiever</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">50 XP</div>
+              </div>
+              <button class="btn-primary redeem-shop-btn" data-cost="50" data-reward="Golden Achiever" style="padding: 4px 10px; font-size: 0.78rem;">Redeem</button>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 700; font-size: 0.9rem;">🔥 Streak Titan</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">100 XP</div>
+              </div>
+              <button class="btn-primary redeem-shop-btn" data-cost="100" data-reward="Streak Titan" style="padding: 4px 10px; font-size: 0.78rem;">Redeem</button>
+            </div>
+          </div>
         </div>
 
         <!-- Live Update System Status Card -->
         <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 16px; padding: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
           <div>
             <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--accent-emerald); margin-bottom: 4px;">⚡ AuraHabit OTA Live Auto-Update System</h4>
-            <div style="font-size: 0.85rem; color: var(--text-muted);">Current App Version: <b>v1.5.0 (Live OTA Auto-Update Verified! 🎉)</b></div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Current App Version: <b>v2.0 PRO (Live OTA Auto-Update Verified! 🎉)</b></div>
           </div>
           <button class="btn-primary" id="profileCheckUpdatesBtn" style="background: linear-gradient(135deg, #10b981, #059669); border: none;">
             🔄 Check for Live Updates
@@ -307,11 +383,18 @@
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Daily Reminder Alarm (Optional)</label>
+            <input type="time" class="form-input" id="habitReminderTimeInput">
+          </div>
           <div class="form-group">
             <label class="form-label">Target Goal</label>
             <input type="number" class="form-input" id="habitTargetInput" value="1" min="1">
           </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
           <div class="form-group">
             <label class="form-label">Unit Label</label>
             <input type="text" class="form-input" id="habitUnitInput" value="times">
@@ -320,65 +403,70 @@
             <label class="form-label">Difficulty / XP</label>
             <select class="form-select" id="habitDifficultySelect">
               <option value="Easy">Easy (+10 XP)</option>
-              <option value="Medium" selected>Medium (+25 XP)</option>
+              <option value="Medium">Medium (+25 XP)</option>
               <option value="Hard">Hard (+50 XP)</option>
             </select>
           </div>
         </div>
 
-        <button type="submit" class="btn-primary" id="saveHabitSubmitBtn" style="width: 100%; margin-top: 16px; justify-content: center;">
-          💾 Save Habit
-        </button>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn-secondary close-modal-btn">Cancel</button>
+          <button type="submit" class="btn-primary" id="saveHabitSubmitBtn">💾 Save Habit</button>
+        </div>
       </form>
     </div>
   </div>
 
-  <!-- Modal 2: Presets -->
-  <div class="modal-overlay" id="presetModal">
-    <div class="modal-box">
+  <!-- Modal 2: Habit Presets Explorer -->
+  <div class="modal-overlay" id="presetsModal">
+    <div class="modal-box" style="max-width: 680px;">
       <div class="modal-header">
-        <h3 class="modal-title">✨ Pre-designed Routine Templates</h3>
+        <h3 class="modal-title">✨ Recommended Routine Presets</h3>
         <button class="close-btn close-modal-btn">&times;</button>
       </div>
-      <div id="presetListContainer"></div>
+      <div id="presetsListContainer" style="display: flex; flex-direction: column; gap: 16px;"></div>
     </div>
   </div>
 
-  <!-- Modal 3: Share Card -->
-  <div class="modal-overlay" id="shareModal">
-    <div class="modal-box" style="text-align: center;">
+  <!-- Modal 3: Shareable Card Generator -->
+  <div class="modal-overlay" id="shareCardModal">
+    <div class="modal-box" style="max-width: 580px; text-align: center;">
       <div class="modal-header">
-        <h3 class="modal-title">🎨 Your Habit Mastery Card</h3>
+        <h3 class="modal-title">🎨 Habit Streak & Progress Card</h3>
         <button class="close-btn close-modal-btn">&times;</button>
       </div>
-      <div id="sharePreviewBox" style="margin-bottom: 20px;"></div>
-      <button class="btn-primary" id="downloadShareCardBtn" style="width: 100%; justify-content: center;">
-        📥 Download PNG Card
-      </button>
+      <div id="shareCardPreview" style="margin-bottom: 20px;"></div>
+      <div style="display: flex; justify-content: center; gap: 12px;">
+        <button class="btn-primary" id="downloadShareCardBtn">📥 Download Printable Card</button>
+        <button class="btn-secondary close-modal-btn">Close</button>
+      </div>
     </div>
   </div>
+
+  <!-- Canvas for Exporting Cards -->
+  <canvas id="shareCardCanvas" width="600" height="380"></canvas>
 
   <!-- Fixed Native Mobile Bottom Navigation Bar -->
-  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+  <nav class="mobile-bottom-nav">
     <button class="mobile-nav-btn active" data-view="dashboard">
       <span class="m-icon">🏠</span>
-      <span class="m-label">Home</span>
+      <span>Home</span>
     </button>
     <button class="mobile-nav-btn" data-view="analytics">
       <span class="m-icon">📈</span>
-      <span class="m-label">Stats</span>
+      <span>Stats</span>
     </button>
     <button class="mobile-nav-btn" data-view="timer">
       <span class="m-icon">⏱️</span>
-      <span class="m-label">Timer</span>
+      <span>Timer</span>
     </button>
-    <button class="mobile-nav-btn" data-view="journal">
-      <span class="m-icon">📖</span>
-      <span class="m-label">Journal</span>
+    <button class="mobile-nav-btn" data-view="leaderboard">
+      <span class="m-icon">🏆</span>
+      <span>Ranks</span>
     </button>
     <button class="mobile-nav-btn" data-view="profile">
       <span class="m-icon">👤</span>
-      <span class="m-label">Profile</span>
+      <span>Profile</span>
     </button>
   </nav>
 
