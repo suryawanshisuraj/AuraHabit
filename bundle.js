@@ -3,7 +3,7 @@
  */
 
 // --- 1. Storage & Data Engine ---
-const STORAGE_KEY = 'aurahabit_app_data_v2';
+const STORAGE_KEY = 'aurahabit_app_data_v3';
 const SYNC_ROOM_KEY = 'aurahabit_sync_room';
 
 const CATEGORIES = [
@@ -95,11 +95,11 @@ function loadAppData() {
     }
     const parsed = JSON.parse(raw);
     return {
-      habits: parsed.habits || getDefaultHabits(),
-      logs: parsed.logs || generateDemoLogs(),
-      moods: parsed.moods || generateDemoMoods(),
-      user: parsed.user || { name: 'Aura User', xp: 280, level: 3, theme: 'obsidian', soundEnabled: true, ambientSound: 'off', syncRoom: getSyncRoomId() },
-      unlockedBadges: parsed.unlockedBadges || ['first_step', 'streak_3'],
+      habits: parsed.habits || [],
+      logs: parsed.logs || {},
+      moods: parsed.moods || {},
+      user: parsed.user || { name: 'Achiever', xp: 0, level: 1, theme: 'light', soundEnabled: true, ambientSound: 'off', syncRoom: getSyncRoomId() },
+      unlockedBadges: parsed.unlockedBadges || [],
       focusSessions: parsed.focusSessions || []
     };
   } catch (e) {
